@@ -1,42 +1,69 @@
 import 'package:flutter/material.dart';
 import 'package:meal_app/models/meal.dart';
+import 'package:meal_app/screens/meal_detail_screen.dart';
 
 class MealItem extends StatelessWidget {
   final String? imageUrl;
   final String? title;
+  final String? id;
   final int? duration;
   final Complexity? complexity;
   final Affordability? affordability;
-String? get complexitytext{
-  switch(complexity){
-    case Complexity.Simple: return 'Simple'; break;
-    case Complexity.Hard: return 'Hard'; break;
-    case Complexity.Challenging: return 'Challinging'; break;
-    default: return 'Unknown'; break;
+  String? get complexitytext {
+    switch (complexity) {
+      case Complexity.Simple:
+        return 'Simple';
+        break;
+      case Complexity.Hard:
+        return 'Hard';
+        break;
+      case Complexity.Challenging:
+        return 'Challinging';
+        break;
+      default:
+        return 'Unknown';
+        break;
+    }
   }
-}
 
-String? get affordabilitytext{
-  switch(affordability){
-    case Affordability.Affordable: return 'Affordable'; break;
-    case Affordability.Pricey: return 'Pricey'; break;
-    case Affordability.Luxurious: return 'Luxurious'; break;
-    default: return 'Unknown'; break;
+  String? get affordabilitytext {
+    switch (affordability) {
+      case Affordability.Affordable:
+        return 'Affordable';
+        break;
+      case Affordability.Pricey:
+        return 'Pricey';
+        break;
+      case Affordability.Luxurious:
+        return 'Luxurious';
+        break;
+      default:
+        return 'Unknown';
+        break;
+    }
   }
-}
+
   const MealItem({
     @required this.imageUrl,
     @required this.title,
     @required this.duration,
     @required this.complexity,
     @required this.affordability,
+    @required this.id,
   });
 
-  void selectMeal() {}
+  void selectMeal(BuildContext context) {
+    Navigator.pushNamed(
+      context,
+      MealDetailScreen.routename,
+      arguments: id,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: selectMeal,
+      onTap: () => selectMeal(context),
       child: Card(
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(15),
@@ -84,28 +111,37 @@ String? get affordabilitytext{
             ),
             Padding(
               padding: const EdgeInsets.all(20),
-              child: Row( //main row
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              child: Row(
+                //main row
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   Row(
                     children: [
-                      Icon(Icons.schedule,),
-                      SizedBox(width: 6,),
+                      Icon(
+                        Icons.schedule,
+                      ),
+                      SizedBox(
+                        width: 6,
+                      ),
                       Text('$duration min'),
-                  ],
+                    ],
                   ),
                   Row(
                     children: [
-                      Icon(Icons.work,),
-                      SizedBox(width: 6,),
+                      Icon(
+                        Icons.work,
+                      ),
+                      SizedBox(
+                        width: 6,
+                      ),
                       Text('$complexitytext'),
-                  ],
+                    ],
                   ),
                   Row(
                     children: [
                       Icon(Icons.attach_money),
                       Text('$affordabilitytext')
-                  ],
+                    ],
                   )
                 ],
               ),
